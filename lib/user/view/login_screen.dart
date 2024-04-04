@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:actual_delivery/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,16 @@ import '../../common/component/custom_text_form_field.dart';
 import '../../common/const/colors.dart';
 import '../../common/layout/default_layout.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String username = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +50,25 @@ class LoginScreen extends StatelessWidget {
                 ),
                 CustomTextFromField(
                   hintText: '이메일을 입력해주세요.',
-                  onChanged: (String value) {},
+                  onChanged: (String value) {
+                    username = value;
+                  },
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextFromField(
                   hintText: '비밀번호를 입력해주세요.',
                   obscureText: true,
-                  onChanged: (String value) {},
+                  onChanged: (String value) {
+                    password = value;
+                  },
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
                     // Id:Password
-                    final rawString = 'test@codefactory.ai:testtest';
+                    // final rawString = 'test@codefactory.ai:testtest';
+                    final rawString = '$username:$password';
+                    print(rawString);
 
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
                     String token = stringToBase64.encode(rawString);
@@ -67,7 +82,11 @@ class LoginScreen extends StatelessWidget {
                       ),
                     );
 
-                    print(resp.data);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => RootTab(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -79,7 +98,8 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcxMjIxOTMwNywiZXhwIjoxNzEyMzA1NzA3fQ.8fVPy_jAV_jRJGMm-x3xEQlfZM7gQiV_efqwTCyJcG8';
+                    final refreshToken =
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcxMjIxOTMwNywiZXhwIjoxNzEyMzA1NzA3fQ.8fVPy_jAV_jRJGMm-x3xEQlfZM7gQiV_efqwTCyJcG8';
 
                     final resp = await dio.post(
                       'http://$ip/auth/token',
@@ -89,7 +109,6 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                     );
-
                     print(resp.data);
                   },
                   style: TextButton.styleFrom(
