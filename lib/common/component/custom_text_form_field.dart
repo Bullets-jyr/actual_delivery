@@ -47,6 +47,8 @@ class CustomTextFromField extends StatelessWidget {
         filled: true,
         // 모든 Input 상태의 기본 스타일 세팅
         border: baseBorder,
+        // 선택되지 않은 상태에서 활성화(텍스트 입력 가능) 상태의 스타일 세팅
+        enabledBorder: baseBorder,
         focusedBorder: baseBorder.copyWith(
           borderSide: baseBorder.borderSide.copyWith(
             color: PRIMARY_COLOR,
