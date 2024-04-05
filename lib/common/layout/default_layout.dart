@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DefaultLayout extends StatelessWidget {
+  final Color? backgroundColor;
   final Widget child;
 
   const DefaultLayout({
+    this.backgroundColor,
     required this.child,
     super.key,
   });
@@ -11,7 +13,7 @@ class DefaultLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor ?? Colors.white,
       body: child,
     );
   }
