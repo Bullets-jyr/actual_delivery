@@ -42,7 +42,7 @@ class RestaurantScreen extends StatelessWidget {
                 itemBuilder: (_, index) {
                   final item = snapshot.data![index];
                   final pItem = RestaurantModel.fromJson(
-                      json: item,
+                    json: item,
                   );
 
                   // parsed
@@ -60,22 +60,26 @@ class RestaurantScreen extends StatelessWidget {
                   //   deliveryFee: item['deliveryFee'],
                   // );
 
-                  return RestaurantCard(
-                    image: Image.network(
-                      pItem.thumbUrl,
-                      fit: BoxFit.cover,
-                    ),
-                    // image: Image.asset(
-                    //   'asset/img/food/ddeok_bok_gi.jpg',
-                    //   fit: BoxFit.cover,
-                    // ),
-                    name: pItem.name,
-                    // from List<dynamic> to List<String>
-                    tags: pItem.tags,
-                    ratingsCount: pItem.ratingsCount,
-                    deliveryTime: pItem.deliveryTime,
-                    deliveryFee: pItem.deliveryFee,
-                    ratings: pItem.ratings,
+                  // return RestaurantCard(
+                  //   image: Image.network(
+                  //     pItem.thumbUrl,
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  //   // image: Image.asset(
+                  //   //   'asset/img/food/ddeok_bok_gi.jpg',
+                  //   //   fit: BoxFit.cover,
+                  //   // ),
+                  //   name: pItem.name,
+                  //   // from List<dynamic> to List<String>
+                  //   tags: pItem.tags,
+                  //   ratingsCount: pItem.ratingsCount,
+                  //   deliveryTime: pItem.deliveryTime,
+                  //   deliveryFee: pItem.deliveryFee,
+                  //   ratings: pItem.ratings,
+                  // );
+
+                  return RestaurantCard.fromModel(
+                    model: pItem,
                   );
                 },
                 separatorBuilder: (_, index) {
