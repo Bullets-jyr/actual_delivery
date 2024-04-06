@@ -1,4 +1,5 @@
 import 'package:actual_delivery/restaurant/model/restaurant_model.dart';
+import 'package:actual_delivery/restaurant/view/restaurant_detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -78,8 +79,17 @@ class RestaurantScreen extends StatelessWidget {
                   //   ratings: pItem.ratings,
                   // );
 
-                  return RestaurantCard.fromModel(
-                    model: pItem,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => RestaurantDetailScreen(),
+                        ),
+                      );
+                    },
+                    child: RestaurantCard.fromModel(
+                      model: pItem,
+                    ),
                   );
                 },
                 separatorBuilder: (_, index) {
