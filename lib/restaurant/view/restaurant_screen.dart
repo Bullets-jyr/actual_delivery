@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../common/const/data.dart';
+import '../../common/model/cursor_pagination_model.dart';
 import '../component/restaurant_card.dart';
 
 class RestaurantScreen extends ConsumerWidget {
@@ -48,9 +49,9 @@ class RestaurantScreen extends ConsumerWidget {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FutureBuilder<List<RestaurantModel>>(
-            future: paginateRestaurant(ref),
-            builder: (context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
+          child: FutureBuilder<CursorPaginationModel<RestaurantModel>>(
+            future: ref.watch(restaurantRepositoryProvider).paginate(),
+            builder: (context, AsyncSnapshot<CursorPaginationModel<RestaurantModel>> snapshot) {
               if (!snapshot.hasData) {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -59,7 +60,7 @@ class RestaurantScreen extends ConsumerWidget {
 
               return ListView.separated(
                 itemBuilder: (_, index) {
-                  final pItem = snapshot.data![index];
+                  final pItem = snapshot.data!.data[index];
                   // final pItem = RestaurantModel.fromJson(
                   //   item,
                   // );
@@ -115,7 +116,7 @@ class RestaurantScreen extends ConsumerWidget {
                 separatorBuilder: (_, index) {
                   return SizedBox(height: 16.0);
                 },
-                itemCount: snapshot.data!.length,
+                itemCount: snapshot.data!.data.length,
               );
             },
           ),
