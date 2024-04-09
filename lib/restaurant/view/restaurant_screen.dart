@@ -10,7 +10,7 @@ import '../../common/const/data.dart';
 import '../../common/model/cursor_pagination_model.dart';
 import '../component/restaurant_card.dart';
 
-class RestaurantScreen extends ConsumerWidget {
+class RestaurantScreen extends ConsumerStatefulWidget {
   const RestaurantScreen({super.key});
 
   // Future<List<RestaurantModel>> paginateRestaurant(WidgetRef ref) async {
@@ -45,20 +45,57 @@ class RestaurantScreen extends ConsumerWidget {
   // }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RestaurantScreen> createState() => _RestaurantScreenState();
+}
+
+class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
+  final ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(scrollListener);
+  }
+
+  void scrollListener() {
+    // 현재 위치가
+    // 최대 길이보다 조금 덜 되는 위치까지 왔다면
+    // 새로운 데이터를 추가 요청
+    if (controller.offset > controller.position.maxScrollExtent - 300) {
+      ref.read(restaurantProvider.notifier).paginate(
+        fetchMore: true,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final data = ref.watch(restaurantProvider);
 
+    // 완전 처음 로딩일 때
     if (data is CursorPaginationModelLoading) {
       return Center(
         child: CircularProgressIndicator(),
       );
     }
 
+    // 에러
+    if (data is CursorPaginationModelError) {
+      return Center(
+        child: Text(data.message),
+      );
+    }
+
+    // CursorPaginationModel의 subclass
+    // CursorPaginationModelRefetching
+    // CursorPaginationModelFetchingMore
     final cpm = data as CursorPaginationModel;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView.separated(
+        controller: controller,
         itemCount: cpm.data.length,
         itemBuilder: (_, index) {
           final pItem = cpm.data[index];
