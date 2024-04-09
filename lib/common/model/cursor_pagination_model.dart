@@ -48,7 +48,7 @@ class CursorPaginationModelMeta {
 }
 
 // 새로고침 할 때
-class CursorPaginationModelRefetching extends CursorPaginationModel {
+class CursorPaginationModelRefetching<T> extends CursorPaginationModel<T> {
   CursorPaginationModelRefetching({
     required super.meta,
     required super.data,
@@ -57,7 +57,7 @@ class CursorPaginationModelRefetching extends CursorPaginationModel {
 
 // 리스트의 맨 아래로 내려서
 // 추가 데이터를 요청하는 중
-class CursorPaginationModelFechingMore extends CursorPaginationModel {
+class CursorPaginationModelFechingMore<T> extends CursorPaginationModel<T> {
   CursorPaginationModelFechingMore({
     required super.meta,
     required super.data,
