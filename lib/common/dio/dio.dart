@@ -62,8 +62,42 @@ class CustomInterceptor extends Interceptor {
       return handler.reject(err);
     }
 
-    return handler.resolve(response);
+    final isStatus401 = err.response?.statusCode == 401;
+    final isPathRefresh = err.requestOptions.path == '/auth/token';
 
-    super.onError(err, handler);
+    if (isStatus401 && !isPathRefresh) {
+      final dio = Dio();
+
+      try {
+        final resp = await dio.post(
+          'http://$ip/auth/token',
+          options: Options(
+            headers: {
+              'authorization': 'Bearer $refreshToken',
+            },
+          ),
+        );
+
+        final accessToken = resp.data['accessToken'];
+
+        final options = err.requestOptions;
+
+        // 토큰 변경하기
+        options.headers.addAll({
+          'authorization': 'Bearer $accessToken',
+        });
+
+        await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+
+        // 요청 재전송
+        final response = await dio.fetch(options);
+
+        return handler.resolve(response);
+      } on DioError catch (e) {
+        return handler.reject(e);
+      }
+    }
+
+    return handler.reject(err);
   }
 }
