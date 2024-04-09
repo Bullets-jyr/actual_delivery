@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/const/data.dart';
+import '../../common/dio/dio.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
   final String id;
@@ -18,6 +19,12 @@ class RestaurantDetailScreen extends StatelessWidget {
 
   Future<RestaurantDetailModel> getRestaurantDetail() async {
     final dio = Dio();
+
+    dio.interceptors.add(
+      CustomInterceptor(
+        storage: storage
+      ),
+    );
 
     final repository =
         RestaurantRepository(dio, baseUrl: 'http://$ip/restaurant');
