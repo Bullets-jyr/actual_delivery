@@ -14,6 +14,7 @@ class CursorPaginationModelError extends CursorPaginationModelBase {
   });
 }
 
+// 로딩 상태
 class CursorPaginationModelLoading extends CursorPaginationModelBase {}
 
 @JsonSerializable(
@@ -47,6 +48,8 @@ class CursorPaginationModelMeta {
       _$CursorPaginationModelMetaFromJson(json);
 }
 
+// 로딩 상태
+// 데이터가 있는 상태
 // 새로고침 할 때
 class CursorPaginationModelRefetching<T> extends CursorPaginationModel<T> {
   CursorPaginationModelRefetching({
@@ -55,10 +58,12 @@ class CursorPaginationModelRefetching<T> extends CursorPaginationModel<T> {
   });
 }
 
+// 로딩 상태
+// 데이터가 있는 상태
 // 리스트의 맨 아래로 내려서
 // 추가 데이터를 요청하는 중
-class CursorPaginationModelFetchMore<T> extends CursorPaginationModel<T> {
-  CursorPaginationModelFetchMore({
+class CursorPaginationModelFetchingMore<T> extends CursorPaginationModel<T> {
+  CursorPaginationModelFetchingMore({
     required super.meta,
     required super.data,
   });
