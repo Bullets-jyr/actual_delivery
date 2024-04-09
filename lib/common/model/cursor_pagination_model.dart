@@ -6,10 +6,10 @@ part 'cursor_pagination_model.g.dart';
 
 abstract class CursorPaginationModelBase {}
 
-class CursonPaginationModelError extends CursorPaginationModelBase {
+class CursorPaginationModelError extends CursorPaginationModelBase {
   final String message;
 
-  CursonPaginationModelError({
+  CursorPaginationModelError({
     required this.message,
   });
 }
@@ -57,8 +57,8 @@ class CursorPaginationModelRefetching<T> extends CursorPaginationModel<T> {
 
 // 리스트의 맨 아래로 내려서
 // 추가 데이터를 요청하는 중
-class CursorPaginationModelFechingMore<T> extends CursorPaginationModel<T> {
-  CursorPaginationModelFechingMore({
+class CursorPaginationModelFetchMore<T> extends CursorPaginationModel<T> {
+  CursorPaginationModelFetchMore({
     required super.meta,
     required super.data,
   });
