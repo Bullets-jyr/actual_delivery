@@ -29,6 +29,16 @@ class CursorPaginationModel<T> extends CursorPaginationModelBase {
     required this.data,
   });
 
+  CursorPaginationModel copyWith({
+    CursorPaginationModelMeta? meta,
+    List<T>? data,
+  }) {
+    return CursorPaginationModel(
+      meta: meta ?? this.meta,
+      data: data ?? this.data,
+    );
+  }
+
   factory CursorPaginationModel.fromJson(
           Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
       _$CursorPaginationModelFromJson(json, fromJsonT);
@@ -43,6 +53,16 @@ class CursorPaginationModelMeta {
     required this.count,
     required this.hasMore,
   });
+
+  CursorPaginationModelMeta copyWith({
+    int? count,
+    bool? hasMore,
+  }) {
+    return CursorPaginationModelMeta(
+      count: count ?? this.count,
+      hasMore: hasMore ?? this.hasMore,
+    );
+  }
 
   factory CursorPaginationModelMeta.fromJson(Map<String, dynamic> json) =>
       _$CursorPaginationModelMetaFromJson(json);
