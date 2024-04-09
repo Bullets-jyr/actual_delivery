@@ -1,11 +1,14 @@
 import 'package:actual_delivery/common/view/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'user/view/login_screen.dart';
 
 void main() {
   runApp(
-    _APP(),
+    ProviderScope(
+      child: _APP(),
+    ),
   );
 }
 
