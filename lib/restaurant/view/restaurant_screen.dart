@@ -64,8 +64,8 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     // 새로운 데이터를 추가 요청
     if (controller.offset > controller.position.maxScrollExtent - 300) {
       ref.read(restaurantProvider.notifier).paginate(
-        fetchMore: true,
-      );
+            fetchMore: true,
+          );
     }
   }
 
@@ -96,8 +96,22 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView.separated(
         controller: controller,
-        itemCount: cpm.data.length,
+        itemCount: cpm.data.length + 1,
         itemBuilder: (_, index) {
+          if (index == cpm.data.length) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: Center(
+                child: data is CursorPaginationModelFetchingMore
+                    ? CircularProgressIndicator()
+                    : Text('마지막 데이터입니다 ㅠㅠ'),
+              ),
+            );
+          }
+
           final pItem = cpm.data[index];
 
           return GestureDetector(
