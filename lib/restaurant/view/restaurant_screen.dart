@@ -1,5 +1,6 @@
 import 'package:actual_delivery/common/dio/dio.dart';
 import 'package:actual_delivery/restaurant/model/restaurant_model.dart';
+import 'package:actual_delivery/restaurant/provider/restaurant_provider.dart';
 import 'package:actual_delivery/restaurant/repository/restaurant_repository.dart';
 import 'package:actual_delivery/restaurant/view/restaurant_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -45,82 +46,39 @@ class RestaurantScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FutureBuilder<CursorPaginationModel<RestaurantModel>>(
-            future: ref.watch(restaurantRepositoryProvider).paginate(),
-            builder: (context, AsyncSnapshot<CursorPaginationModel<RestaurantModel>> snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+    final data = ref.watch(restaurantProvider);
 
-              return ListView.separated(
-                itemBuilder: (_, index) {
-                  final pItem = snapshot.data!.data[index];
-                  // final pItem = RestaurantModel.fromJson(
-                  //   item,
-                  // );
+    if (data.length == 0) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
-                  // parsed
-                  // final pItem = RestaurantModel(
-                  //   id: item['id'],
-                  //   name: item['name'],
-                  //   thumbUrl: 'http://$ip${item['thumbUrl']}',
-                  //   tags: List<String>.from(item['tags']),
-                  //   priceRange: RestaurantPriceRange.values.firstWhere(
-                  //     (e) => e.name == item['priceRange'],
-                  //   ),
-                  //   ratings: item['ratings'],
-                  //   ratingsCount: item['ratingsCount'],
-                  //   deliveryTime: item['deliveryTime'],
-                  //   deliveryFee: item['deliveryFee'],
-                  // );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListView.separated(
+        itemCount: data.length,
+        itemBuilder: (_, index) {
+          final pItem = data[index];
 
-                  // return RestaurantCard(
-                  //   image: Image.network(
-                  //     pItem.thumbUrl,
-                  //     fit: BoxFit.cover,
-                  //   ),
-                  //   // image: Image.asset(
-                  //   //   'asset/img/food/ddeok_bok_gi.jpg',
-                  //   //   fit: BoxFit.cover,
-                  //   // ),
-                  //   name: pItem.name,
-                  //   // from List<dynamic> to List<String>
-                  //   tags: pItem.tags,
-                  //   ratingsCount: pItem.ratingsCount,
-                  //   deliveryTime: pItem.deliveryTime,
-                  //   deliveryFee: pItem.deliveryFee,
-                  //   ratings: pItem.ratings,
-                  // );
-
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => RestaurantDetailScreen(
-                            id: pItem.id,
-                          ),
-                        ),
-                      );
-                    },
-                    child: RestaurantCard.fromModel(
-                      model: pItem,
-                    ),
-                  );
-                },
-                separatorBuilder: (_, index) {
-                  return SizedBox(height: 16.0);
-                },
-                itemCount: snapshot.data!.data.length,
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => RestaurantDetailScreen(
+                    id: pItem.id,
+                  ),
+                ),
               );
             },
-          ),
-        ),
+            child: RestaurantCard.fromModel(
+              model: pItem,
+            ),
+          );
+        },
+        separatorBuilder: (_, index) {
+          return SizedBox(height: 16.0);
+        },
       ),
     );
   }
