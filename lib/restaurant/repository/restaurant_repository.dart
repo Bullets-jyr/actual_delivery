@@ -34,7 +34,7 @@ abstract class RestaurantRepository {
   })
   Future<CursorPaginationModel<RestaurantModel>> paginate({
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
-});
+  });
 
   // http://$ip/restaurant/:id
   @GET('/{id}')
