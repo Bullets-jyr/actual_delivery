@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../common/const/data.dart';
 import '../../common/model/cursor_pagination_model.dart';
 import '../../common/model/pagination_params.dart';
+import '../../common/repository/base_pagination_repository.dart';
 import '../model/restaurant_detail_model.dart';
 
 part 'restaurant_repository.g.dart';
@@ -21,7 +22,7 @@ final restaurantRepositoryProvider = Provider<RestaurantRepository>((ref) {
 });
 
 @RestApi()
-abstract class RestaurantRepository {
+abstract class RestaurantRepository implements IBasePaginationRepository<RestaurantModel> {
   // baseUrl
   // http://$ip/restaurant
   factory RestaurantRepository(Dio dio, {String baseUrl}) =
