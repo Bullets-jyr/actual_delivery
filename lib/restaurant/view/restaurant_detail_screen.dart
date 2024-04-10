@@ -4,12 +4,14 @@ import 'package:actual_delivery/restaurant/component/restaurant_card.dart';
 import 'package:actual_delivery/restaurant/model/restaurant_detail_model.dart';
 import 'package:actual_delivery/restaurant/provider/restaurant_provider.dart';
 import 'package:actual_delivery/restaurant/repository/restaurant_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../common/const/data.dart';
 import '../../common/dio/dio.dart';
+import '../../rating/component/rating_card.dart';
 import '../model/restaurant_model.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
@@ -74,13 +76,24 @@ class _RestaurantDetailScreenState
           renderTop(
             model: state,
           ),
-          if (state is! RestaurantDetailModel)
-            renderLoading(),
+          if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel)
             renderProducts(
               products: state.products,
             ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            sliver: SliverToBoxAdapter(
+              child: RatingCard(
+                avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
+                images: [],
+                rating: 4,
+                email: 'jyr@bullets.co.kr',
+                content: '맛있습니다.',
+              ),
+            ),
+          ),
         ],
       ),
     );
