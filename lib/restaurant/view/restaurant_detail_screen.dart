@@ -1,4 +1,5 @@
 import 'package:actual_delivery/common/layout/default_layout.dart';
+import 'package:actual_delivery/common/model/cursor_pagination_model.dart';
 import 'package:actual_delivery/product/component/product_card.dart';
 import 'package:actual_delivery/restaurant/component/restaurant_card.dart';
 import 'package:actual_delivery/restaurant/model/restaurant_detail_model.dart';
@@ -13,6 +14,7 @@ import 'package:skeletons/skeletons.dart';
 import '../../common/const/data.dart';
 import '../../common/dio/dio.dart';
 import '../../rating/component/rating_card.dart';
+import '../../rating/model/rating_model.dart';
 import '../model/restaurant_model.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
@@ -62,8 +64,6 @@ class _RestaurantDetailScreenState
     final state = ref.watch(restaurantDetailProvider(widget.id));
     final ratingsState = ref.watch(restaurantRatingProvider(widget.id));
 
-    print(ratingsState);
-
     if (state == null) {
       return DefaultLayout(
         child: Center(
@@ -86,19 +86,30 @@ class _RestaurantDetailScreenState
             renderProducts(
               products: state.products,
             ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            sliver: SliverToBoxAdapter(
-              child: RatingCard(
-                avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
-                images: [],
-                rating: 4,
-                email: 'jyr@bullets.co.kr',
-                content: '맛있습니다.',
-              ),
+          if (ratingsState is CursorPaginationModel<RatingModel>)
+            renderRatings(
+              models: ratingsState.data,
+            ),
+        ],
+      ),
+    );
+  }
+
+  SliverPadding renderRatings({
+    required List<RatingModel> models,
+  }) {
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (_, index) => Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: RatingCard.fromModel(
+              model: models[index],
             ),
           ),
-        ],
+          childCount: models.length,
+        ),
       ),
     );
   }
