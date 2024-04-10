@@ -46,13 +46,13 @@ class RestaurantDetailScreen extends ConsumerStatefulWidget {
 
 class _RestaurantDetailScreenState
     extends ConsumerState<RestaurantDetailScreen> {
-
   @override
   void initState() {
     super.initState();
 
     ref.read(restaurantProvider.notifier).getDetail(id: widget.id);
   }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(restaurantDetailProvider(widget.id));
@@ -73,10 +73,11 @@ class _RestaurantDetailScreenState
           renderTop(
             model: state,
           ),
-          // renderLabel(),
-          // renderProducts(
-          //   products: snapshot.data!.products,
-          // ),
+          if (state is RestaurantDetailModel) renderLabel(),
+          if (state is RestaurantDetailModel)
+            renderProducts(
+              products: state.products,
+            ),
         ],
       ),
     );
