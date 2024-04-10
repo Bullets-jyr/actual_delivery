@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../common/model/cursor_pagination_model.dart';
 import '../../common/model/pagination_params.dart';
+import '../../common/provider/pagination_provider.dart';
 import '../repository/restaurant_repository.dart';
 
 final restaurantDetailProvider =
@@ -27,14 +28,13 @@ final restaurantProvider =
   },
 );
 
-class RestaurantStateNotifier extends StateNotifier<CursorPaginationModelBase> {
-  final RestaurantRepository repository;
+class RestaurantStateNotifier extends PaginationProvider<RestaurantModel, RestaurantRepository> {
+  // final RestaurantRepository repository;
 
   RestaurantStateNotifier({
-    required this.repository,
-  }) : super(CursorPaginationModelLoading()) {
-    paginate();
-  }
+    // required this.repository,
+    required super.repository,
+  });
 
   void getDetail({
     required String id,
