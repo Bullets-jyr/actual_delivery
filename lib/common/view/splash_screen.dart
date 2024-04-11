@@ -10,6 +10,8 @@ import '../const/data.dart';
 import '../secure_storage/secure_storage.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
+  static String get routeName => '/splash';
+
   const SplashScreen({super.key});
 
   @override
