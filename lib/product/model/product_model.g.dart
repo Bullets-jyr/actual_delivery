@@ -12,8 +12,8 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
       detail: json['detail'] as String,
       imgUrl: DataUtils.pathToUrl(json['imgUrl'] as String),
       price: json['price'] as int,
-      restaurantModel: RestaurantModel.fromJson(
-          json['restaurantModel'] as Map<String, dynamic>),
+      restaurant:
+          RestaurantModel.fromJson(json['restaurant'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
@@ -23,5 +23,5 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'detail': instance.detail,
       'imgUrl': instance.imgUrl,
       'price': instance.price,
-      'restaurantModel': instance.restaurantModel,
+      'restaurant': instance.restaurant,
     };

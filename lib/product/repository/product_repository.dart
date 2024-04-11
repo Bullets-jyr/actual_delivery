@@ -11,7 +11,7 @@ import '../../common/const/data.dart';
 
 part 'product_repository.g.dart';
 
-final productRepositoryProvider = Provider<ProductRepository>(
+final productRepositoryProvider = Provider<ProductRepository> (
   (ref) {
     final dio = ref.watch(dioProvider);
 
@@ -21,11 +21,15 @@ final productRepositoryProvider = Provider<ProductRepository>(
 
 // http://$ip/product
 @RestApi()
-abstract class ProductRepository implements IBasePaginationRepository<ProductModel> {
+abstract class ProductRepository
+    implements IBasePaginationRepository<ProductModel> {
   factory ProductRepository(Dio dio, {String baseUrl}) = _ProductRepository;
 
   @GET('/')
-  @Headers({'accessToken': 'true'})
+  @Headers({
+    'accessToken': 'true',
+  })
+  @override
   Future<CursorPaginationModel<ProductModel>> paginate({
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });

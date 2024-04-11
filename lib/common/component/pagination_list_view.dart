@@ -7,7 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../utils/pagination_utils.dart';
 
 typedef PaginationWidgetBuilder<T extends IModelWithId> = Widget Function(
-    BuildContext context, int index, T model);
+  BuildContext context,
+  int index,
+  T model,
+);
 
 class PaginationListView<T extends IModelWithId>
     extends ConsumerStatefulWidget {
@@ -26,7 +29,8 @@ class PaginationListView<T extends IModelWithId>
       _PaginationListViewState<T>();
 }
 
-class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<PaginationListView> {
+class _PaginationListViewState<T extends IModelWithId>
+    extends ConsumerState<PaginationListView> {
   final ScrollController controller = ScrollController();
 
   @override

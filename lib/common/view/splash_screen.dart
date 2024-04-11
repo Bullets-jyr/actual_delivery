@@ -51,20 +51,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         ),
       );
 
-      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
+      await storage.write(
+          key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => RootTab(),
         ),
-            (route) => false,
+        (route) => false,
       );
-    } catch(e) {
+    } catch (e) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => LoginScreen(),
         ),
-            (route) => false,
+        (route) => false,
       );
     }
   }
@@ -78,10 +79,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'asset/img/logo/logo.png',
-              width: MediaQuery.of(context).size.width / 2,
+            Text(
+              '엘리키친 - EK',
+              style: TextStyle(
+                fontSize: 42.0,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
             ),
+            // Image.asset(
+            //   'asset/img/logo/logo.png',
+            //   width: MediaQuery.of(context).size.width / 2,
+            // ),
             const SizedBox(height: 16.0),
             CircularProgressIndicator(
               color: Colors.white,
