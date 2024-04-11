@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../product/view/product_screen.dart';
 import '../../restaurant/view/restaurant_screen.dart';
+import '../../user/view/profile_screen.dart';
 import '../layout/default_layout.dart';
 
 class RootTab extends StatefulWidget {
@@ -56,10 +57,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
               child: Container(
             child: Text('주문'),
           )),
-          Center(
-              child: Container(
-            child: Text('프로필'),
-          )),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

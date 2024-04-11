@@ -1,6 +1,6 @@
 import 'package:actual_delivery/common/view/root_tab.dart';
 import 'package:actual_delivery/restaurant/view/restaurant_detail_screen.dart';
-import 'package:actual_delivery/user/provider/usr_me_provider.dart';
+import 'package:actual_delivery/user/provider/user_me_provider.dart';
 import 'package:actual_delivery/user/view/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

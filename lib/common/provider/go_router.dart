@@ -4,7 +4,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final routerProvider = Provider<GoRouter>(
   (ref) {
-    final provider = ref.watch(authProvider);
+    // watch - 값이 변경될때마다 다시 빌드
+    // read - 한번만 읽고 값이 변경돼도 다시 빌드하지 않음
+    final provider = ref.read(authProvider);
 
     return GoRouter(
       routes: provider.routes,
