@@ -5,6 +5,8 @@ import 'package:retrofit/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../common/const/data.dart';
+import '../model/basket_item_model.dart';
+import '../model/patch_basket_body.dart';
 
 part 'user_me_repository.g.dart';
 
@@ -22,6 +24,22 @@ abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
 
   @GET('/')
-  @Headers({'accessToken': 'true'})
+  @Headers({
+    'accessToken': 'true',
+  })
   Future<UserModel> getMe();
+
+  @GET('/basket')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<List<BasketItemModel>> getBasket();
+
+  @PATCH('/basket')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<List<BasketItemModel>> patchBasket({
+    @Body() required PatchBasketBody body,
+});
 }
