@@ -1,4 +1,7 @@
 import 'package:actual_delivery/common/dio/dio.dart';
+import 'package:actual_delivery/common/model/cursor_pagination_model.dart';
+import 'package:actual_delivery/common/model/pagination_params.dart';
+import 'package:actual_delivery/common/repository/base_pagination_repository.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
@@ -19,8 +22,16 @@ final orderRepositoryProvider = Provider<OrderRepository>(
 
 // http://$ip/order
 @RestApi()
-abstract class OrderRepository {
+abstract class OrderRepository implements IBasePaginationRepository<OrderModel> {
   factory OrderRepository(Dio dio, {String baseUrl}) = _OrderRepository;
+
+  @GET('/')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<CursorPaginationModel<OrderModel>> paginate({
+    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  });
 
   @POST('/')
   @Headers({
