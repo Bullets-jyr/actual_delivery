@@ -98,35 +98,43 @@ class _PaginationListViewState<T extends IModelWithId>
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: ListView.separated(
-        controller: controller,
-        itemCount: cpm.data.length + 1,
-        itemBuilder: (_, index) {
-          if (index == cpm.data.length) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              child: Center(
-                child: cpm is CursorPaginationModelFetchingMore
-                    ? CircularProgressIndicator()
-                    : Text('마지막 데이터입니다 ㅠㅠ'),
-              ),
-            );
-          }
-
-          final pItem = cpm.data[index];
-
-          return widget.itemBuilder(
-            context,
-            index,
-            pItem,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          ref.read(widget.provider.notifier).paginate(
+            forceRefetch: true,
           );
         },
-        separatorBuilder: (_, index) {
-          return SizedBox(height: 16.0);
-        },
+        child: ListView.separated(
+          physics: AlwaysScrollableScrollPhysics(),
+          controller: controller,
+          itemCount: cpm.data.length + 1,
+          itemBuilder: (_, index) {
+            if (index == cpm.data.length) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Center(
+                  child: cpm is CursorPaginationModelFetchingMore
+                      ? CircularProgressIndicator()
+                      : Text('마지막 데이터입니다 ㅠㅠ'),
+                ),
+              );
+            }
+
+            final pItem = cpm.data[index];
+
+            return widget.itemBuilder(
+              context,
+              index,
+              pItem,
+            );
+          },
+          separatorBuilder: (_, index) {
+            return SizedBox(height: 16.0);
+          },
+        ),
       ),
     );
   }
