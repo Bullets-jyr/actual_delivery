@@ -5,7 +5,7 @@ import 'package:retrofit/http.dart';
 
 import '../../common/const/data.dart';
 import '../model/order_model.dart';
-import 'post_order_body.dart';
+import '../model/post_order_body.dart';
 
 part 'order_repository.g.dart';
 
